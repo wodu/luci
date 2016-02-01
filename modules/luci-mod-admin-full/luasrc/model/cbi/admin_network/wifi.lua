@@ -249,6 +249,8 @@ if hwtype == "mac80211" then
 
 	s:taboption("advanced", Value, "frag", translate("Fragmentation Threshold"))
 	s:taboption("advanced", Value, "rts", translate("RTS/CTS Threshold"))
+	s:taboption("advanced", Value, "txantenna", translate("TX Antenna Mask"))
+	s:taboption("advanced", Value, "rxantenna", translate("RX Antenna Mask"))
 end
 
 
