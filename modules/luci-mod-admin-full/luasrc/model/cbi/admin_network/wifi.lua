@@ -490,6 +490,9 @@ if hwtype == "mac80211" then
 
 	ifname = s:taboption("advanced", Value, "ifname", translate("Interface name"), translate("Override default interface name"))
 	ifname.optional = true
+
+	scan_freq = s:taboption("general", Value, "scan_freq" , translate("Scan frequencies"))
+	scan_freq:depends({mode="sta"})
 end
 
 
