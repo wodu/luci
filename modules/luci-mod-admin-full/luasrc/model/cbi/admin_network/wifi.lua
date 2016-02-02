@@ -246,6 +246,8 @@ if hwtype == "mac80211" then
 			end
 		end
 	end
+	--it doesn't really belong here but somehow it's in device section
+	s:taboption("advanced", Value, "beacon_int", translate("Beacon interval"))
 
 	s:taboption("advanced", Value, "frag", translate("Fragmentation Threshold"))
 	s:taboption("advanced", Value, "rts", translate("RTS/CTS Threshold"))
