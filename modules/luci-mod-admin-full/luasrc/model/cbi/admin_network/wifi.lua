@@ -253,8 +253,8 @@ if hwtype == "mac80211" then
 	s:taboption("advanced", Value, "retry_long", translate("Long retries"))
 	s:taboption("advanced", Value, "txantenna", translate("TX Antenna Mask"))
 	s:taboption("advanced", Value, "rxantenna", translate("RX Antenna Mask"))
+	s:taboption("advanced", Value, "antenna_gain", translate("Antenna Gain"))
 end
-
 
 ------------------- Broadcom Device ------------------
 
