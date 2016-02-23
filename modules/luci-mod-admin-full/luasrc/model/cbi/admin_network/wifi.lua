@@ -354,6 +354,7 @@ s.defaults.device = wdev:name()
 
 s:tab("general", translate("General Setup"))
 s:tab("encryption", translate("Wireless Security"))
+s:tab("handoff", translate("Handoff Settings"))
 s:tab("macfilter", translate("MAC-Filter"))
 s:tab("advanced", translate("Advanced Settings"))
 
@@ -1091,6 +1092,21 @@ if hwtype == "mac80211" then
 	ieee80211w:value("0", translate("Disabled"))
 	ieee80211w:value("1", translate("Optional"))
 	ieee80211w:value("2", translate("Required"))
+end
+
+------------------- Handoff -------------------
+if hwtype == "mac80211" then
+	bgscan = s:taboption("handoff", Flag, "bgscan", translate("Background Scan"))
+	bgscan:depends({mode="sta"})
+
+	bgscan_thresh = s:taboption("handoff", Value, "bgscan_thresh", translate("Scan threshold"))
+	bgscan_thresh:depends({mode="sta"})
+
+	bgscan_sh_intvl = s:taboption("handoff", Value, "bgscan_sh_intvl", translate("Short scanning interval"))
+	bgscan_sh_intvl:depends({mode="sta"})
+
+	bgscan_lg_intvl = s:taboption("handoff", Value, "bgscan_lg_intvl", translate("Long scanning interval"))
+	bgscan_lg_intvl:depends({mode="sta"})
 end
 
 return m
