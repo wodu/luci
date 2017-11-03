@@ -1087,13 +1087,6 @@ if hwtype == "mac80211" or hwtype == "prism2" then
 	end
 end
 
-if hwtype == "mac80211" then
-	ieee80211w = s:taboption("encryption", ListValue, "ieee80211w", translate("Management Frame Protection (IEEE 802.11w)"))
-	ieee80211w:value("0", translate("Disabled"))
-	ieee80211w:value("1", translate("Optional"))
-	ieee80211w:value("2", translate("Required"))
-end
-
 ------------------- Handoff -------------------
 if hwtype == "mac80211" then
 	bgscan = s:taboption("handoff", Flag, "bgscan", translate("Background Scan"))
