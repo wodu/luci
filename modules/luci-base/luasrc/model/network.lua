@@ -543,6 +543,9 @@ end
 function del_network(self, n)
 	local r = _uci:delete("network", n)
 	if r then
+		_uci:delete_all("luci", "ifstate",
+			function(s) return (s.interface == n) end)
+
 		_uci:delete_all("network", "alias",
 			function(s) return (s.interface == n) end)
 
@@ -998,7 +1001,10 @@ function protocol.ip6addrs(self)
 
 	if type(addrs) == "table" then
 		for n, addr in ipairs(addrs) do
-			if type(addr["local-address"]) == "table" then
+			if type(addr["local-address"]) == "table" and
+			   type(addr["local-address"].mask) == "number" and
+			   type(addr["local-address"].address) == "string"
+			then
 				rv[#rv+1] = "%s/%d" %{
 					addr["local-address"].address,
 					addr["local-address"].mask
