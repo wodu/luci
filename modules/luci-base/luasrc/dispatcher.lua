@@ -346,15 +346,23 @@ function dispatch(request)
 		   ifattr      = function(...) return _ifattr(...) end;
 		   attr        = function(...) return _ifattr(true, ...) end;
 		   url         = build_url;
-		}, {__index=function(table, key)
+		}, {__index=function(tbl, key)
 			if key == "controller" then
 				return build_url()
 			elseif key == "REQUEST_URI" then
 				return build_url(unpack(ctx.requestpath))
+			elseif key == "FULL_REQUEST_URI" then
+				local url = { http.getenv("SCRIPT_NAME"), http.getenv("PATH_INFO") }
+				local query = http.getenv("QUERY_STRING")
+				if query and #query > 0 then
+					url[#url+1] = "?"
+					url[#url+1] = query
+				end
+				return table.concat(url, "")
 			elseif key == "token" then
 				return ctx.authtoken
 			else
-				return rawget(table, key) or _G[key]
+				return rawget(tbl, key) or _G[key]
 			end
 		end})
 	end
@@ -884,7 +892,7 @@ end
 function cbi(model, config)
 	return {
 		type = "cbi",
-		post = { ["cbi.submit"] = "1" },
+		post = { ["cbi.submit"] = true },
 		config = config,
 		model = model,
 		target = _cbi
@@ -930,7 +938,7 @@ end
 function form(model)
 	return {
 		type = "cbi",
-		post = { ["cbi.submit"] = "1" },
+		post = { ["cbi.submit"] = true },
 		model = model,
 		target = _form
 	}
