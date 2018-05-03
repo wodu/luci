@@ -3,6 +3,7 @@
 -- Licensed to the public under the GNU General Public License v2.
 
 dsp = require "luci.dispatcher"
+uci = require "uci"
 
 
 function interfaceWarnings(overview, count, iface_max)
@@ -137,9 +138,9 @@ m5 = Map("mwan3", translate("MWAN - Interfaces"),
 	interfaceWarnings(configCheck()))
 
 mwan_interface = m5:section(TypedSection, "interface", nil,
-	translate("MWAN supports up to 250 physical and/or logical interfaces<br />" ..
+	translate("MWAN supports up to 252 physical and/or logical interfaces<br />" ..
 	"MWAN requires that all interfaces have a unique metric configured in /etc/config/network<br />" ..
-	"Names must match the interface name found in /etc/config/network (see advanced tab)<br />" ..
+	"Names must match the interface name found in /etc/config/network<br />" ..
 	"Names may contain characters A-Z, a-z, 0-9, _ and no spaces<br />" ..
 	"Interfaces may not share the same name as configured members, policies or rules"))
 mwan_interface.addremove = true
@@ -169,7 +170,7 @@ track_method.rawhtml = true
 function track_method.cfgvalue(self, s)
 	local tracked = self.map:get(s, "track_ip")
 	if tracked then
-		return self.map:get(s, "track_method") or "&#8212;"
+		return self.map:get(s, "track_method") or "ping"
 	else
 		return "&#8212;"
 	end
@@ -180,7 +181,7 @@ reliability.rawhtml = true
 function reliability.cfgvalue(self, s)
 	local tracked = self.map:get(s, "track_ip")
 	if tracked then
-		return self.map:get(s, "reliability") or "&#8212;"
+		return self.map:get(s, "reliability") or "1"
 	else
 		return "&#8212;"
 	end
@@ -195,7 +196,7 @@ function interval.cfgvalue(self, s)
 		if intervalValue then
 			return intervalValue .. "s"
 		else
-			return "&#8212;"
+			return "5s"
 		end
 	else
 		return "&#8212;"
@@ -207,7 +208,7 @@ down.rawhtml = true
 function down.cfgvalue(self, s)
 	local tracked = self.map:get(s, "track_ip")
 	if tracked then
-		return self.map:get(s, "down") or "&#8212;"
+		return self.map:get(s, "down") or "3"
 	else
 		return "&#8212;"
 	end
@@ -218,7 +219,7 @@ up.rawhtml = true
 function up.cfgvalue(self, s)
 	local tracked = self.map:get(s, "track_ip")
 	if tracked then
-		return self.map:get(s, "up") or "&#8212;"
+		return self.map:get(s, "up") or "3"
 	else
 		return "&#8212;"
 	end
